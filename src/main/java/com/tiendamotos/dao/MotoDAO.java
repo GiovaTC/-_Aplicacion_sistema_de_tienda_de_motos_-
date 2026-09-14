@@ -120,4 +120,83 @@ public class MotoDAO {
 
         return motos;
     }   // listar .
+
+    public void actualizar(Moto moto) {
+
+        String sql = """
+                UPDATE MOTOS
+                SET
+                    MARCA = ?,
+                    MODELO = ?,
+                    CILINDRADA = ?,
+                    ANIO = ?,
+                    PRECIO = ?,
+                    STOCK = ?,
+                WHERE ID_MOTO = ?
+                """;
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setString(1, moto.getMarca());
+            statement.setString(2, moto.getModelo());
+            statement.setInt(3, moto.getCilindrada());
+            statement.setInt(4, moto.getAnio());
+            statement.setDouble(5, moto.getPrecio());
+            statement.setInt(6, moto.getStock());
+            statement.setInt(7, moto.getIdMoto());
+
+            int filas = statement.executeUpdate();
+
+            if (filas > 0) {
+                System.out.println(
+                        "MOTO actualizada correctamente!"
+                );
+            } else {
+
+                System.out.println(
+                        "no se encontro la moto!"
+                );
+            }
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "error actualizando moto: "
+                    + e.getMessage()
+            );
+        }
+    }
+
+    public void elimina(int idMoto) {
+
+        String sql =
+                "DELETE FROM MOTOS WHERE ID_MOTO = ?";
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setInt(1, idMoto);
+
+            int filas = statement.executeUpdate();
+
+            if (filas > 0) {
+                System.out.println(
+                        "MOTO elimnada correctamente!"
+                );
+            } else {
+
+                System.out.println(
+                        "NO se encontro la moto!"
+                );
+            }
+        } catch (SQLException e) {
+
+            System.out.println(
+                "error eliminando MOTO: "
+                    + e.getMessage()
+            );
+        }   
+    }
 }
