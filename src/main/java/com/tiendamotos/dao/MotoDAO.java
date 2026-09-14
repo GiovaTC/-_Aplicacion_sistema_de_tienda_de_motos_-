@@ -168,7 +168,7 @@ public class MotoDAO {
         }
     }
 
-    public void elimina(int idMoto) {
+    public void eliminar(int idMoto) {
 
         String sql =
                 "DELETE FROM MOTOS WHERE ID_MOTO = ?";
@@ -197,6 +197,6 @@ public class MotoDAO {
                 "error eliminando MOTO: "
                     + e.getMessage()
             );
-        }   
+        }
     }
 }
