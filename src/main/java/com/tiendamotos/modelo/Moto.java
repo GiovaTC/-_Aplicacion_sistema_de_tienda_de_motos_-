@@ -95,4 +95,4 @@ public class Moto {
                 ", stock=" + stock +
                 '}';
     }
-}   
+}
