@@ -53,4 +53,71 @@ public class MotoDAO {
             );
         }
     }
+
+    public List<Moto> listar() {
+
+        List<Moto> motos = new ArrayList<>();
+
+        String sql = """
+                SELECT
+                    ID_MOTO,
+                    MARCA,
+                    MODELO,
+                    CILINDRADA,
+                    ANIO,
+                    PRECIO,
+                    STOCK
+                FROM MOTOS
+                ORDER BY ID_MOTO
+                """;
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql);
+             ResultSet result = statement.executeQuery()) {
+
+            while (result.next()) {
+
+                Moto moto = new Moto();
+
+                moto.setIdMoto(
+                        result.getInt("ID_MOTO")
+                );
+
+                moto.setMarca(
+                        result.getString("MARCA")
+                );
+
+                moto.setModelo(
+                        result.getString("MODELO")
+                );
+
+                moto.setCilindrada(
+                        result.getInt("CILINDRADA")
+                );
+
+                moto.setAnio(
+                        result.getInt("ANIO")
+                );
+
+                moto.setPrecio(
+                        result.getDouble("PRECIO")
+                );
+
+                moto.setStock(
+                        result.getInt("STOCK")
+                );
+
+                motos.add(moto);
+            }
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "error consultando MOTOS: "
+                    + e.getMessage()
+            );
+        }
+
+        return motos;
+    }   // listar .
 }
